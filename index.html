@@ -1,106 +1,20 @@
 <html>
 <head>
     <title>Pacman Demo</title>
-    <style>
-
-        body{
-            background: black;
-            margin: 0px;                    
-        }       
-
-        .row div{
-            width: 60px;
-            height: 60px;           
-            display: inline-block;                      
-        }
-
-        .brick{
-            background-color:skyblue;
-        }
-
-        .coin{
-            background: url('img/coin.gif');
-            background-repeat: no-repeat;
-            background-position: center;         
-        }
-
-        .empty{
-            background: none;                   
-        }
-
-        #pacman{
-            background: url('img/right.gif');
-            background-repeat: no-repeat;
-            background-position: center;
-            background-size: cover;
-            width: 60px;
-            height: 60px;
-            position: absolute;             
-        }
-
-        #ghost{
-            background: url('img/ghost.gif');
-            background-repeat: no-repeat;
-            background-position: center;
-            background-size: cover;           
-            position: relative;          
-        }
-
-        .cherry{
-            background:url('img/cherry.gif');
-            background-repeat: no-repeat;
-            background-position: center;           
-            background-size: cover;
-        
-        }
-
-        #score{
-            border:1px solid white;
-            width: 70px;
-            height: 20px;           
-            padding: 10px;
-            margin: 20px auto 40px;  
-            color: white;      
-        }
-
-        #title{        
-       
-            position: relative;
-            color: white;
-            
-        }
-
-       #container{
-
-            margin-top: 100px;
-            text-align: center;
-       }
-
-       #wrap{
-           width: 600px;
-           margin: auto;
-           position: relative;
-       }
-      
-    </style>
+    <link rel="stylesheet" href="style.css">    
 </head>
     
 <body>
-
     <div id="container"> 
         <div id="title">TOTAL SCORE:</div>
         <div id="score">0</div>
         <div id="wrap">           
             <div id="pacman"></div>       
             <div id="world"></div>
-       </div> 
-       
-        
-        
+       </div>      
     </div>  
 
     <script>
-
         var world1 = [
             [2,2,2,2,2,2,2,2,2,2],
             [2,0,2,1,1,1,1,1,1,2],
@@ -171,62 +85,52 @@
         var pacman = {
             x: 1,
             y: 1
-        };            
-  
-        for(k = 0; k < world.length-1; k++){
-	    var refresh = Math.floor(Math.random() * world.length-1) + 1;
+        };             
         
+        for(k = 0; k < world.length-1; k++){
+	        var refresh = Math.floor(Math.random() * world.length-1) + 1;        
         } 
 
         var map = world[refresh];       
         
         function displayWorld(world){
-            var output = '';                
+            var output = '';               
            
-
-        for(var i=0; i<map.length; i++){          
-            
+        for(var i=0; i<map.length; i++){         
             output += "\n<div class='row'>\n";
-            for(var j=0; j<map[i].length; j++){
-                if(map[i][j] == 2)
+                for(var j=0; j<map[i].length; j++){
+                    if(map[i][j] == 2){
                     output += "<div class='brick'></div>";
-                else if(map[i][j] == 1)
+                    }
+                    
+                    else if(map[i][j] == 1){
                     output += "<div class='coin'></div>";
-                else if(map[i][j] == 3)
+                    }
+                    
+                    else if(map[i][j] == 3){
                     output += "<div class='cherry'></div>";                
-                else if(map[i][j] == 0)
+                    }
+                    
+                    else if(map[i][j] == 0){
                     output += "<div class='empty'></div>";   
-                else if(map[i][j] == 4)
+                    }
+                    
+                    else if(map[i][j] == 4){
                     output += "<div id='ghost'></div>";
-                             
+                    }                             
                 }
                 output += "\n</div>";
-            }
-        
+            }        
         
         document.getElementById('world').innerHTML = output;
-     
-        return map;
-        
-     
-    }
-   
 
-    function displayGhost(){
-
-    
-
-
-    }
-
-    
+        return map;      
+    } 
 
     function displayPacman(){
-
         document.getElementById("pacman").style.backgroundImage = "url('img/"+direction+".gif')";   
         document.getElementById('pacman').style.top = pacman.y*60+"px";
-        document.getElementById('pacman').style.left = pacman.x*60+"px";        
-     
+        document.getElementById('pacman').style.left = pacman.x*60+"px";         
     }
 
 
@@ -236,33 +140,26 @@
 
     displayWorld(world);
     displayPacman();  
-    displayScore();
-    displayGhost();
+    displayScore();   
 
-    
-  
-
-    document.onkeydown = function(e){      
-         
-      
+    document.onkeydown = function(e){     
         if(e.keyCode == 37 && map[pacman.y][pacman.x-1] !=2 ){//LEFT
-            pacman.x--;          
+            pacman.x--;                    
             direction = 'left';
-
         }
 
         else if(e.keyCode == 39 && map[pacman.y][pacman.x+1] !=2){// RIGHT
-            pacman.x++;           
+            pacman.x++;                     
             direction = 'right';
         }
 
         else if(e.keyCode == 40 && map[pacman.y+1][pacman.x] !=2){// DOWN
-            pacman.y++;           
+            pacman.y++;                          
             direction = 'down';
         }
         
         else if(e.keyCode == 38 && map[pacman.y-1][pacman.x] !=2){// UP
-            pacman.y--;          
+            pacman.y--;                      
             direction = 'up';
         }          
         
@@ -271,21 +168,17 @@
             score+=10;
             displayWorld(world);
             displayScore();
-        } else if(map[pacman.y][pacman.x] == 3){
+        } 
+        
+        else if(map[pacman.y][pacman.x] == 3){
             map[pacman.y][pacman.x] = 0;
             score+=40;
             displayWorld(world);
             displayScore();
-        }       
-        displayPacman();       
-   
-    }
-    console.log(map[8,8]);
-    
-    </script>
+        }
 
-    
-
-    
+        displayPacman();    
+    }     
+    </script>    
 </body>
 </html>
